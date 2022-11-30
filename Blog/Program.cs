@@ -10,49 +10,36 @@ namespace Blog
         {
             using var context = new BlogDataContext();
 
-            //var user = new User
+            //context.Users.Add(new User
             //{
-            //    Name = "André Baltieri",
-            //    Slug = "andrebaltieri",
-            //    Email = "andre@balta.io",
-            //    Bio = "9x Microsoft MVP",
-            //    Image = "https://balta.io",
-            //    PasswordHash = "123098457"
-            //};
+            //    Name = "Henrique Bilo",
+            //    Slug = "henriquebilo",
+            //    Email = "bilo@balta.io",
+            //    Bio = "Jogador caro",
+            //    Image = "sem",
+            //    PasswordHash = "534543543"
+            //});
 
-            //var category = new Category 
-            //{ 
-            //    Name = "Backend", 
-            //    Slug = "backend" 
-            //};
+            var user = context.Users.FirstOrDefault(x => x.Id == 2);
 
-            ////O EF primeiro vai inserir usuario, dps categoria e depois pega os IDS e cria o post
-            //var post = new Post
-            //{
-            //    Author = user,
-            //    Category = category,
-            //    Body = "<p>Hello world</p>",
-            //    Slug = "comecando-com-ef-core",
-            //    Summary = "Neste artigo vamos aprender EF core",
-            //    Title = "Começando com EF Core",
-            //    CreateDate = DateTime.Now,
-            //    LastUpdateDate = DateTime.Now,
-            //};
 
-            //context.Posts.Add(post);
-            //context.SaveChanges();
+            var post = new Post
+            {
+                Author = user,
+                Body = "Meu artigo",
+                Category = new Category
+                {
+                    Name = "Frontend",
+                    Slug = "Froentend",
+                },
+                CreateDate = System.DateTime.Now,
+                Slug = "meu-artigo",
+                Summary = "Neste artigo vamos conferir...",
+                Title = "Meu artigo",
+            };
 
-            var posts = context
-                .Posts
-                .AsNoTracking()
-                //.Include(x => x.Author) // // --> Isso é um JOIN
-                //.ThenInclude(x => ) //Poderia pegar a tabela filho do Author
-                .OrderByDescending(x => x.LastUpdateDate)
-                .ToList();
-
-            foreach (var post in posts)
-                Console.Write($"{post.Title}");
-
+            context.Posts.Add(post);
+            context.SaveChanges();
         }
     }
 }
